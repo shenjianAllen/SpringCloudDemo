@@ -1,0 +1,25 @@
+server:
+  port: 8762
+
+spring:
+  application:
+#向注册中心注册的实例名（被系统调用的实例名，如果是集群模式 此值需要一致）
+    name: eurka-client
+#用于链路追踪（外部需要启动相关依赖项目）
+#  zipkin:
+#    base-url: http://localhost:9411
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://testnode1:8761/eureka/
+
+#集群其他方案   如下
+#仿照 https://blog.csdn.net/u010816545/article/details/80461957
+#此配置需要写个类定义springboot-h2这个名称为项目名
+#springboot-h2: 
+#  ribbon: 
+#自定义使用随机策略，springboot-h2是服务应用名 
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule 
+      
+      

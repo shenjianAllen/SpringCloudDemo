@@ -1,0 +1,62 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://testnode1:8761/eureka/
+# 开启健康检查
+    healthcheck: 
+      enabled: true
+      
+server:
+  port: 8764
+  
+spring:
+  application:
+    name: service-ribbon
+#用于链路追踪（外部需要启动相关依赖项目）
+#  zipkin:
+#    base-url: http://localhost:9411
+  cloud:
+    loadbalancer:
+      retry:
+##启动重试机制
+        enabled: true
+
+#配置超时时间      
+custom:
+   rest:
+    connect-timeout: 1000
+    connection-request-timeout: 1000
+    read-timeout: 3000
+    
+client-service:
+  ribbon:
+    OkToRetryOnAllOperations: true # 是否对所有请求都进行重试
+    MaxAutoRetriesNextServer: 2   #重试切换实例次数   最大重试服务器数量(不包括第一台服务器)
+    MaxAutoRetries: 1     #重试次数   在同一个服务器上的最大重试数 (不包括第一次重试)  
+
+#超时所设定的时间
+hystrix: 
+   command: 
+     default: 
+        fallback: 
+          isolation: 
+            semaphore: 
+#设置调用线程产生的HystrixCommand.getFallback()方法的允许最大请求数目,如果达到最大并发数目，后续请求将会被拒绝，如果没有实现回退，则抛出异常
+              maxConcurrentRequests: 10
+        execution: 
+          isolation: 
+#设置隔离策略
+            strategy: THREAD
+#设置最大并发请求数，只对于使用信号量[SEMAPHORE]策略的生效 ,如果超出该并发量，则超出的会被拒绝；且该值必需小于容器的线程池大小，否则并不起保护作用，因为其实容器线程池的一小部分而已
+            semaphore: 
+              maxConcurrentRequests: 10
+            thread: 
+#超过该时间会执行回退逻辑
+              timeoutInMilliseconds: 5000
+#是否超时中断正在执行的run 默认true
+              interruptOnTimeout: true
+#是否执行取消动作时，中断正在执行的run 默认false
+              interruptOnCancel: false
+          timeout: 
+#是否启用超时设置 默认true
+            enabled: true

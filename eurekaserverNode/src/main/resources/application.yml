@@ -1,0 +1,16 @@
+server:
+  port: 8861
+
+eureka:
+  instance:
+    hostname: testnode2
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://testnode1:8761/eureka/
+
+spring:
+  application:
+    name: eurekaserver-node
+#  profiles: eureka-HA
