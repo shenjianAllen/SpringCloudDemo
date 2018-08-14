@@ -8,6 +8,29 @@ spring:
 #用于链路追踪（外部需要启动相关依赖项目）
 #  zipkin:
 #    base-url: http://localhost:9411
+#kafka配置
+  cloud:
+     stream:
+        instanceIndex: 0
+        instanceCount: 2
+        kafka:
+          binder:
+            brokers: localhost:9092,localhost:9093
+            zk-nodes: localhost:2181,localhost:2182
+            auto-add-partitions: true
+            auto-create-topics: true
+            min-partition-count: 1
+        bindings:
+          input:
+            destination: mytopicSj
+            group: hahah
+            consumer:
+              #设置不自动提交，自己手动更新offset[预防消费者挂了，数据丢失]
+              autoCommitOffset: false
+              #每个实例中启动多少个kafka consumer
+              concurrency: 2
+              #准备启动多少个实例
+              partitioned: true
 
 eureka:
   client:

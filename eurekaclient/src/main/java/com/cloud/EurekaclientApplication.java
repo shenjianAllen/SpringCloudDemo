@@ -17,7 +17,7 @@ import com.netflix.loadbalancer.RoundRobinRule;
 @EnableEurekaClient
 @RestController
 public class EurekaclientApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(EurekaclientApplication.class, args);
 	}
@@ -45,4 +45,5 @@ public class EurekaclientApplication {
     	System.out.println("到我了，集群节点第001个");
         return "hi " + name + " ,i am from port:" + port;
     }
+    
 }
